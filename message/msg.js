@@ -216,7 +216,7 @@ module.exports = async(conn, msg, m, setting) => {
 		
 		const buttonsDefault = [
 			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6285791458996` } },
-			{ urlButton: { displayText: `Script!`, url : `https://github.com/rtwone/chitandabot` } },
+			{ urlButton: { displayText: `Instagram`, url : `https://instagram.com/sofunsyabi.id` } },
 			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
 			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } }
 		]
@@ -643,7 +643,7 @@ module.exports = async(conn, msg, m, setting) => {
 				reply(mess.wait)
 			    var query = ["cecan hd","cecan indo","cewe cantik", "cewe aesthetic", "cecan aesthetic"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `${command}`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/cecan`, buttonText: { displayText: "Next Photo" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Cewe Cantik", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
@@ -652,7 +652,7 @@ module.exports = async(conn, msg, m, setting) => {
 				reply(mess.wait)
 				var query = ["cogan hd","cogan indo","cowo ganteng","handsome boy","hot boy","oppa","cowo aesthetic","cogan aesthetic"]
 				var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `${command}`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/cogan`, buttonText: { displayText: "Next Photo" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Cowo Ganteng", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
 				break
@@ -698,7 +698,7 @@ module.exports = async(conn, msg, m, setting) => {
 					}
 				    limitAdd(sender, limit)
 				  } else {
-					var but = [{buttonId: `${command} ${q}`, buttonText: { displayText: 'Next Photo' }, type: 1 }]
+					var but = [{buttonId: `/pinterest ${q}`, buttonText: { displayText: 'Next Photo' }, type: 1 }]
 					conn.sendMessage(from, { caption: `Hasil pencarian dari ${q}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 				    limitAdd(sender, limit)
 				  }
