@@ -317,7 +317,21 @@ module.exports = async(conn, msg, m, setting) => {
 		            break
 			case prefix+'donate':
 			case prefix+'donasi':
-			    reply(`──「 MENU DONATE 」──\n\nHi ${pushname} 👋🏻\n\`\`\`GOPAY : 085791458996\`\`\`\n\`\`\`PULSA : 085735338148 (Indosat)\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini _^\n──「 THX FOR YOU ! 」──`)
+			    reply(`◪ DONASI
+  │
+  ├─ ❏ GOPAY
+  ├─ ❏ 088213292687
+  ├─ ❏ OVO
+  ├─ ❏ 088213292687
+  ├─ ❏ PULSA
+  ├─ ❏ 081319944917
+  ├─ ❏ PULSA2
+  ├─ ❏ 088213292687
+  ├─ ❏ INSTAGRAM
+  └─ ❏ https://www.instagram.com/sofunsyabi.id
+  
+  Donasi Untuk Upgrade Ke Fitur Premium
+  Note : Donasi Seikhlasnya`)
 			    break
 			case prefix+'owner':
 			    for (let x of ownerNumber) {
