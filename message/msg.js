@@ -656,6 +656,42 @@ module.exports = async(conn, msg, m, setting) => {
 				conn.sendMessage(from, { caption: "Random Cowo Ganteng", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
 				break
+case prefix+'naruto':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+				reply(mess.wait)
+			    var query = ["naruto hd","naruto boruto","naruto sasuke", "naruto aesthetic", "naruto aesthetic"]
+                var data = await pinterest(pickRandom(query))
+				var but = [{buttonId: `/naruto`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				conn.sendMessage(from, { caption: "Random Foto Naruto", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+			    limitAdd(sender, limit)
+ 			    break
+case prefix+'loli':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+				reply(mess.wait)
+			    var query = ["loli","loli chan","loli anime","loli hd","loli aesthetic"]
+                var data = await pinterest(pickRandom(query))
+				var but = [{buttonId: `/loli`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				conn.sendMessage(from, { caption: "Random Foto Loli Chan", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+			    limitAdd(sender, limit)
+ 			    break
+case prefix+'waifu':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+				reply(mess.wait)
+			    var query = ["waifu","waifu aesthetic","waifu hd"]
+                var data = await pinterest(pickRandom(query))
+				var but = [{buttonId: `/waifu`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				conn.sendMessage(from, { caption: "Random Waifu", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+			    limitAdd(sender, limit)
+ 			    break
+case prefix+'husbu':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+				reply(mess.wait)
+			    var query = ["husbu anime","husbu hd","husbu aesthetic"]
+                var data = await pinterest(pickRandom(query))
+				var but = [{buttonId: `/husbu`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				conn.sendMessage(from, { caption: "Random Husbu", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+			    limitAdd(sender, limit)
+ 			    break
 			// Search Menu
 			case prefix+'lirik': case 'liriklagu':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)

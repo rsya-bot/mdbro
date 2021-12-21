@@ -62,12 +62,16 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}quote
   ≻ ${prefix}cecan
   ≻ ${prefix}cogan
+  ≻ ${prefix}naruto
+  ≻ ${prefix}loli
+  ≻ ${prefix}waifu
+  ≻ ${prefix}husbu
   
   *( 🔎 )  Search Menu*
   ≻ ${prefix}lirik
   ≻ ${prefix}grupwa
   ≻ ${prefix}ytsearch
-  ≻  ${prefix}pinterest Query
+  ≻ ${prefix}pinterest Query
   
   *( 🎮 )  Game Menu*
   ≻ ${prefix}tictactoe
@@ -100,6 +104,10 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}leave
   ≻ ${prefix}addprem
   ≻ ${prefix}delprem
+
+*THANKS TO*
+- Riyan
+- Arasya
 
 `+'     \`\`\`Powered by Nodejs\`\`\`'
 }
