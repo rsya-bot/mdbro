@@ -67,6 +67,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}lirik
   ≻ ${prefix}grupwa
   ≻ ${prefix}ytsearch
+  ≻  ${prefix}pinterest Query
   
   *( 🎮 )  Game Menu*
   ≻ ${prefix}tictactoe
@@ -79,6 +80,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}transfer
   ≻ ${prefix}limit
   ≻ ${prefix}balance
+  ≻ ${prefix}topbalance
   
   *( 👥 )  Group Menu*
   ≻ ${prefix}linkgrup
