@@ -2,6 +2,7 @@
 const {
 	downloadContentFromMessage
 } = require("@adiwajshing/baileys-md")
+const afk = require("../lib/afk");
 const { color, bgcolor } = require('../lib/color')
 const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
 const { webp2mp4File } = require("../lib/convert")
@@ -45,7 +46,7 @@ let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
-module.exports = async(conn, msg, m, setting) => {
+module.exports = async(conn, msg, m, setting, _afk) => {
 	try {
 		let { ownerNumber, botName, gamewaktu, limitCount } = setting
 		let { allmenu } = require('./help')
@@ -86,6 +87,7 @@ module.exports = async(conn, msg, m, setting) => {
 		const isGroupAdmins = groupAdmins.includes(sender)
 		const isUser = pendaftar.includes(sender)
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
+		const isAfkOn = afk.checkAfkUser(sender, _afk)
 
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
@@ -215,10 +217,11 @@ module.exports = async(conn, msg, m, setting) => {
 		}
 		
 		const buttonsDefault = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6285791458996` } },
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6281319944917` } },
 			{ urlButton: { displayText: `Instagram`, url : `https://instagram.com/sofunsyabi.id` } },
-			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
-			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } }
+			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
+			{ quickReplyButton: { displayText: `Cek Premium`, id: `${prefix}cekprem` } },
+			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } }
 		]
         
 		const isImage = (type == 'imageMessage')
@@ -289,6 +292,27 @@ module.exports = async(conn, msg, m, setting) => {
 		   reply(`${err}`)
 		 }
 		}
+		        // AFK
+        if (isGroup) {
+            if (mentioned.length !== 0){
+                for (let ment of mentioned) {
+                    if (afk.checkAfkUser(ment, _afk)) {
+                        const getId = afk.getAfkId(ment, _afk)
+                        const getReason = afk.getAfkReason(getId, _afk)
+                        const getTime = Date.now() - afk.getAfkTime(getId, _afk)
+                        const heheh = ms(getTime)
+                        await mentions(`@${ment.split('@')[0]} sedang afk\n\n*Alasan :* ${getReason}\n*Sejak :* ${heheh.hours} Jam, ${heheh.minutes} Menit, ${heheh.seconds} Detik lalu`, [ment], true)
+                        sendMess(ment, `Ada yang mencari anda saat anda offline\n\nNama : ${pushname}\nNomor : wa.me/${sender.split("@")[0]}\nIn Group : ${groupName}\nPesan : ${chats}`)
+                    }
+                }
+            }
+            if (afk.checkAfkUser(sender, _afk)) {
+                _afk.splice(afk.getAfkPosition(sender, _afk), 1)
+                fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+                await mentions(`@${sender.split('@')[0]} telah kembali`, [sender], true)
+            }
+        }
+		
 		
 		// Logs;
 		if (!isGroup && isCmd && !fromMe) {
@@ -305,7 +329,7 @@ module.exports = async(conn, msg, m, setting) => {
 			case prefix+'menu':
 			case prefix+'help':
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, { caption: teks, location: { jpegThumbnail: fs.readFileSync(setting.pathimg) }, templateButtons: buttonsDefault, footer: 'NullTeam-ID © 2021', mentions: [sender] })
+			    conn.sendMessage(from, { caption: teks, location: { jpegThumbnail: fs.readFileSync(setting.pathimg) }, templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender] })
 				break
 			case prefix+'runtime':
 			    reply(runtime(process.uptime()))
@@ -657,7 +681,7 @@ module.exports = async(conn, msg, m, setting) => {
 				reply(mess.wait)
 			    var query = ["cecan hd","cecan indo","cewe cantik", "cewe aesthetic", "cecan aesthetic"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/cecan`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/cecan`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Cewe Cantik", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
@@ -666,7 +690,7 @@ module.exports = async(conn, msg, m, setting) => {
 				reply(mess.wait)
 				var query = ["cogan hd","cogan indo","cowo ganteng","handsome boy","hot boy","oppa","cowo aesthetic","cogan aesthetic"]
 				var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/cogan`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/cogan`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Cowo Ganteng", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
 				break
@@ -675,8 +699,18 @@ case prefix+'naruto':
 				reply(mess.wait)
 			    var query = ["naruto hd","naruto boruto","naruto sasuke", "naruto aesthetic", "naruto aesthetic"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/naruto`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/naruto`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Foto Naruto", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+			    limitAdd(sender, limit)
+ 			    break
+case prefix+'yaoi':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+
+				reply(mess.wait)
+			    var query = ["yaoi","yaoi aesthetic","yaoi hd","yaoi ganteng"]
+                var data = await pinterest(pickRandom(query))
+				var but = [{buttonId: `/${command}`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
+				conn.sendMessage(from, { caption: "Random Foto Yaoi", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
 case prefix+'loli':
@@ -684,7 +718,7 @@ case prefix+'loli':
 				reply(mess.wait)
 			    var query = ["loli","loli chan","loli anime","loli hd","loli aesthetic"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/loli`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/loli`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Foto Loli Chan", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
@@ -693,7 +727,7 @@ case prefix+'waifu':
 				reply(mess.wait)
 			    var query = ["waifu","waifu aesthetic","waifu hd"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/waifu`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/waifu`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Waifu", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
@@ -702,7 +736,7 @@ case prefix+'husbu':
 				reply(mess.wait)
 			    var query = ["husbu anime","husbu hd","husbu aesthetic"]
                 var data = await pinterest(pickRandom(query))
-				var but = [{buttonId: `/husbu`, buttonText: { displayText: "Next Photo" }, type: 1 }]
+				var but = [{buttonId: `/husbu`, buttonText: { displayText: "Get Again Pict" }, type: 1 }]
 				conn.sendMessage(from, { caption: "Random Husbu", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 			    limitAdd(sender, limit)
  			    break
@@ -840,6 +874,14 @@ case prefix+'husbu':
 				  })
 				})
 			    break
+case prefix+'afk':
+                if (!isGroup) return reply(mess.OnlyGrup)
+                if (isAfkOn) return reply('afk sudah diaktifkan sebelumnya')
+                if (body.slice(150)) return reply('Alasanlu kepanjangan')
+                let reason = body.slice(5) ? body.slice(5) : 'Nothing.'
+                afk.addAfkUser(sender, Date.now(), reason, _afk)
+                mentions(`@${sender.split('@')[0]} sedang afk\nAlasan : ${reason}`, [sender], true)
+                break
 			// Group Menu
 			case prefix+'linkgrup': case prefix+'link': case prefix+'linkgc':
 			    if (!isGroup) return reply(mess.OnlyGrup)
